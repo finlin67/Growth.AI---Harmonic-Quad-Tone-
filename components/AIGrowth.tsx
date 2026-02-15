@@ -1,194 +1,180 @@
 'use client';
 
-import React from 'react';
-import { motion, Variants } from 'framer-motion';
-import { TrendingUp, Brain, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { TrendingUp, Brain, Sparkles, MessageSquare, Target, Cpu } from 'lucide-react';
 
+/**
+ * AIGrowth component: A v12-compliant tactical dashboard visualization.
+ */
 export default function AIGrowth() {
-  // Animation variants for the floating effect
-  const floatVariant = (delay: number): Variants => ({
-    animate: {
-      y: [0, -10, 0],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: delay,
-      },
-    },
-  });
+  const [activePulse, setActivePulse] = useState(0);
+
+  // Organic state management for AI "jitter"
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    
+    const cycle = () => {
+      setActivePulse((prev) => (prev + 1) % 4);
+      const nextTime = 1500 + Math.random() * 1000;
+      timeoutId = setTimeout(cycle, nextTime);
+    };
+
+    cycle();
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   return (
-    <div className="relative aspect-square w-full max-w-[600px] mx-auto flex items-center justify-center select-none">
-      {/* Background Animated Dots */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none">
+    <div className="w-full aspect-square max-w-[600px] flex items-center justify-center select-none bg-slate-950 relative overflow-hidden rounded-3xl border border-white/10 shadow-[0_0_80px_-20px_rgba(59,130,246,0.2)]">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          variants={floatVariant(0)}
-          animate="animate"
-          className="absolute top-1/4 left-1/4 w-1.5 h-1.5 bg-blue-400 rounded-full"
+          animate={{
+            opacity: [0.1, 0.3, 0.1],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "mirror" as const,
+          }}
+          className="absolute inset-[-20%] bg-gradient-to-tr from-blue-600/10 via-transparent to-purple-600/10 blur-[80px]"
         />
-        <motion.div
-          variants={floatVariant(2)}
-          animate="animate"
-          className="absolute top-3/4 left-1/3 w-2 h-2 bg-red-500 rounded-full"
-        />
-        <motion.div
-          variants={floatVariant(1)}
-          animate="animate"
-          className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-purple-400 rounded-full"
-        />
-        <motion.div
-          variants={floatVariant(3)}
-          animate="animate"
-          className="absolute bottom-1/4 right-1/3 w-2.5 h-2.5 bg-green-500 rounded-full"
+        <div className="absolute inset-0 opacity-[0.05]" 
+             style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
       </div>
 
-      {/* Center Main Card */}
-      <div className="relative z-20 flex flex-col items-center justify-center p-8 bg-slate-900 border-4 border-slate-700 h-[280px] w-[280px] md:h-[340px] md:w-[340px] shadow-2xl shadow-black/50">
-        <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-2">
-          Revenue Growth
-        </p>
-        <h2 className="text-6xl md:text-7xl font-bold leading-none tracking-tighter bg-gradient-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent">
-          +42%
-        </h2>
-        <p className="text-white/80 font-bold text-sm mt-1 uppercase tracking-tighter">
-          Conversion Lift
-        </p>
-        <div className="mt-6 flex flex-col items-center">
-          <span className="text-white/40 text-[10px] font-medium uppercase tracking-[0.2em]">
-            Growth Engine v2.0
-          </span>
-          <div className="h-1 w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 mt-2"></div>
-        </div>
-      </div>
-
-      {/* Top Left Panel (Blue) */}
-      <motion.div
-        variants={floatVariant(0)}
-        animate="animate"
-        className="absolute top-[10%] left-[-5%] md:left-0 z-30 bg-[#1e293b] border-l-4 border-blue-500 p-4 w-[160px] md:w-[200px] shadow-lg"
-      >
-        <div className="flex items-center gap-3 mb-2">
-          <TrendingUp className="w-4 h-4 text-blue-400" />
-          <span className="text-xs font-bold text-white">Market Intel</span>
-        </div>
-        <div className="space-y-1.5">
-          <div className="h-1.5 w-full bg-slate-700 overflow-hidden">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: "75%" }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="h-full bg-blue-500" 
-            />
+      {/* Main Metric Core */}
+      <div className="relative z-20 flex items-center justify-center">
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, repeatType: "mirror" as const }}
+          className="relative flex flex-col items-center justify-center p-12 bg-slate-900/60 backdrop-blur-2xl border border-white/10 rounded-[40px] shadow-2xl w-[280px] h-[280px] md:w-[320px] md:h-[320px]"
+        >
+          {/* Glass Accents */}
+          <div className="absolute top-0 left-0 w-full h-full rounded-[40px] bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+          
+          <div className="flex items-center gap-2 mb-4">
+            <Cpu className="w-3 h-3 text-blue-400" />
+            <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em]">Engine Latency</span>
           </div>
-          <p className="text-[10px] text-white/50">Analyzing 24 data streams</p>
-        </div>
-      </motion.div>
 
-      {/* Bottom Left Panel (Green) */}
+          <motion.div className="relative flex flex-col items-center">
+            <motion.h2 
+              animate={{ scale: [1, 1.02, 1], opacity: [0.9, 1, 0.9] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="text-7xl md:text-8xl font-black bg-gradient-to-br from-white via-slate-200 to-slate-500 bg-clip-text text-transparent leading-none tracking-tighter"
+            >
+              +54<span className="text-4xl text-blue-500">%</span>
+            </motion.h2>
+            <div className="absolute -bottom-1 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+          </motion.div>
+
+          <p className="mt-4 text-xs font-bold text-white/60 uppercase tracking-widest">Efficiency Delta</p>
+
+          <div className="mt-8 flex gap-2">
+            {[0, 1, 2, 3].map((idx) => (
+              <motion.div
+                key={idx}
+                animate={{
+                  backgroundColor: activePulse === idx ? ["#3b82f6", "#a855f7", "#3b82f6"] : "#1e293b",
+                  height: activePulse === idx ? [8, 12, 8] : 8,
+                }}
+                className="w-8 rounded-full transition-colors duration-500"
+              />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Tactical UI Panels */}
+      
+      {/* Top Left - Pulse */}
       <motion.div
-        variants={floatVariant(1.5)}
-        animate="animate"
-        className="absolute bottom-[15%] left-[-2%] md:left-[5%] z-30 bg-[#1e293b] border-l-4 border-green-500 p-4 w-[160px] md:w-[200px] shadow-lg"
+        animate={{ x: [-5, 5, -5], y: [-5, 5, -5] }}
+        transition={{ duration: 8, repeat: Infinity, repeatType: "mirror" as const }}
+        className="absolute top-[10%] left-[10%] z-30 flex items-center gap-3 bg-slate-900/80 border border-white/10 p-3 rounded-2xl backdrop-blur-md"
       >
-        <div className="flex items-center gap-3 mb-2">
-          <Brain className="w-4 h-4 text-green-400" />
-          <span className="text-xs font-bold text-white">Sentiment Analysis</span>
+        <div className="size-8 rounded-xl bg-blue-500/20 flex items-center justify-center">
+          <Target className="w-4 h-4 text-blue-400" />
         </div>
-        <div className="flex items-end gap-1 h-8">
-          <div className="w-2 bg-green-500/20 h-1/2"></div>
-          <div className="w-2 bg-green-500/40 h-3/4"></div>
-          <div className="w-2 bg-green-500 h-full"></div>
-          <div className="w-2 bg-green-400 h-2/3"></div>
-          <div className="w-2 bg-green-300 h-1/3"></div>
+        <div>
+          <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest">Targeting</p>
+          <p className="text-xs font-bold text-white">Active Node</p>
         </div>
       </motion.div>
 
-      {/* Top Right Panel (Red) */}
+      {/* Bottom Right - Metrics */}
       <motion.div
-        variants={floatVariant(0.8)}
-        animate="animate"
-        className="absolute top-[15%] right-[-5%] md:right-0 z-30 bg-[#1e293b] border-l-4 border-red-500 p-4 w-[180px] md:w-[220px] shadow-lg"
+        animate={{ x: [5, -5, 5], y: [5, -5, 5] }}
+        transition={{ duration: 7, repeat: Infinity, repeatType: "mirror" as const, delay: 1 }}
+        className="absolute bottom-[12%] right-[10%] z-30 w-48 bg-slate-900/80 border border-white/10 p-4 rounded-2xl backdrop-blur-md"
       >
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[10px] font-bold text-red-400 uppercase tracking-tighter">
-            Messaging Node
-          </span>
-          <span className="text-[9px] bg-red-600 text-white px-1.5 border border-red-500">
-            99.2% ROI
-          </span>
+          <TrendingUp className="w-4 h-4 text-emerald-400" />
+          <span className="text-[10px] font-bold text-emerald-400">OPTIMIZED</span>
         </div>
-        <p className="text-[11px] text-white/80 leading-relaxed italic">
-          &quot;Unlock unprecedented scale with AI-driven market intelligence...&quot;
-        </p>
+        <div className="space-y-2">
+          <div className="flex justify-between text-[10px] font-bold text-white/40 uppercase">
+            <span>Precision</span>
+            <span>99.2%</span>
+          </div>
+          <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+            <motion.div 
+              animate={{ width: ["10%", "99%", "90%"] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" 
+            />
+          </div>
+        </div>
       </motion.div>
 
-      {/* Bottom Right Panel (Purple) */}
+      {/* Center Top - Status */}
       <motion.div
-        variants={floatVariant(2.2)}
-        animate="animate"
-        className="absolute bottom-[10%] right-[-2%] md:right-[5%] z-30 bg-[#1e293b] border-l-4 border-purple-500 p-4 w-[180px] md:w-[220px] shadow-lg"
+        animate={{ y: [-10, 0, -10] }}
+        transition={{ duration: 5, repeat: Infinity, repeatType: "mirror" as const }}
+        className="absolute top-[8%] right-[15%] flex items-center gap-2"
       >
-        <div className="flex items-center gap-3 mb-2">
-          <Sparkles className="w-4 h-4 text-purple-400" />
-          <span className="text-xs font-bold text-white">Growth Assets</span>
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <div className="h-2 w-full bg-slate-700"></div>
-          <div className="h-2 w-2/3 bg-slate-700"></div>
-          <div className="h-2 w-4/5 bg-purple-600"></div>
-        </div>
+        <div className="size-2 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)] animate-pulse" />
+        <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.3em]">Quantum_Sync: Stable</span>
       </motion.div>
 
-      {/* Connecting SVG Lines */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
-        viewBox="0 0 600 600"
-      >
-        <path
-          d="M150 120 Q 200 150, 250 250"
-          fill="none"
-          stroke="url(#blue-grad-line)"
-          strokeWidth="2"
+      {/* Background Connectors */}
+      <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 600 600">
+        <motion.circle 
+          cx="300" cy="300" r="220" 
+          stroke="white" strokeWidth="1" fill="none" 
+          strokeDasharray="4 8"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 60, repeat: Infinity }}
         />
-        <path
-          d="M160 500 Q 220 450, 260 350"
-          fill="none"
-          stroke="url(#green-grad-line)"
-          strokeWidth="2"
+        <motion.circle 
+          cx="300" cy="300" r="180" 
+          stroke="white" strokeWidth="0.5" fill="none" 
+          animate={{ opacity: [0.1, 0.3, 0.1] }}
+          transition={{ duration: 4, repeat: Infinity }}
         />
-        <path
-          d="M350 250 Q 400 180, 480 140"
-          fill="none"
-          stroke="url(#red-grad-line)"
-          strokeWidth="2"
-        />
-        <path
-          d="M350 350 Q 420 420, 480 500"
-          fill="none"
-          stroke="url(#purple-grad-line)"
-          strokeWidth="2"
-        />
-        <defs>
-          <linearGradient id="blue-grad-line" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="#3b82f6" stopOpacity="1" />
-            <stop offset="100%" stopColor="#2dd4bf" stopOpacity="1" />
-          </linearGradient>
-          <linearGradient id="red-grad-line" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="#ef4444" stopOpacity="1" />
-            <stop offset="100%" stopColor="#f97316" stopOpacity="1" />
-          </linearGradient>
-          <linearGradient id="purple-grad-line" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="#a855f7" stopOpacity="1" />
-            <stop offset="100%" stopColor="#ec4899" stopOpacity="1" />
-          </linearGradient>
-          <linearGradient id="green-grad-line" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor="#22c55e" stopOpacity="1" />
-            <stop offset="100%" stopColor="#84cc16" stopOpacity="1" />
-          </linearGradient>
-        </defs>
       </svg>
+
+      {/* Outer Pulse Rings */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        {[0, 1, 2].map((i) => (
+          <motion.div
+            key={i}
+            animate={{
+              scale: [0.8, 1.5],
+              opacity: [0.4, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              delay: i * 1.5,
+            }}
+            className="absolute size-[350px] border border-blue-500/30 rounded-full"
+          />
+        ))}
+      </div>
     </div>
   );
 }
