@@ -2,19 +2,7 @@
 
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
-import { 
-  LineChart, 
-  Zap, 
-  ChevronRight, 
-  Layout, 
-  Shield, 
-  Activity, 
-  Globe, 
-  Users, 
-  Lock, 
-  BarChart3,
-  Cpu
-} from 'lucide-react';
+import { LineChart, Zap } from 'lucide-react';
 import AIGrowth from './components/AIGrowth';
 
 export default function App() {
@@ -23,250 +11,145 @@ export default function App() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.8,
+        ease: [0.21, 0.47, 0.32, 0.98], // Custom smooth ease
       },
     },
   };
 
-  const kpiData = [
-    { 
-      icon: Cpu, 
-      label: 'Core Utilization', 
-      val: '94.2%', 
-      sub: 'Engine V3.2 Active',
-      color: 'text-blue-400', 
-      bg: 'bg-blue-500/10',
-      border: 'border-blue-500/20'
-    },
-    { 
-      icon: Globe, 
-      label: 'Edge Distribution', 
-      val: '42 Nodes', 
-      sub: 'Global Low Latency',
-      color: 'text-purple-400', 
-      bg: 'bg-purple-500/10',
-      border: 'border-purple-500/20'
-    },
-    { 
-      icon: Users, 
-      label: 'Scale Throughput', 
-      val: '1.2M/s', 
-      sub: 'Real-time Requests',
-      color: 'text-emerald-400', 
-      bg: 'bg-emerald-500/10',
-      border: 'border-emerald-500/20'
-    },
-    { 
-      icon: Lock, 
-      label: 'Entropy Shield', 
-      val: '100%', 
-      sub: 'Zero Trust Protocol',
-      color: 'text-amber-400', 
-      bg: 'bg-amber-500/10',
-      border: 'border-amber-500/20'
-    }
-  ];
-
   return (
-    <div className="relative min-h-screen w-full flex flex-col bg-[#0f172a] text-white selection:bg-blue-500/30 font-sans overflow-x-hidden">
-      {/* Background Decorative Glows */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full" />
-      </div>
-
-      {/* Navigation */}
-      <nav className="relative z-50 flex items-center justify-between px-6 py-5 md:px-12 lg:px-24 border-b border-white/5 backdrop-blur-md bg-slate-950/20">
-        <div className="flex items-center gap-2.5">
-          <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-1.5 rounded-lg shadow-lg shadow-blue-500/20">
-            <Zap className="w-5 h-5 text-white fill-white/20" />
+    <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a] overflow-x-hidden text-white font-display selection:bg-purple-500/30">
+      <div className="flex h-full grow flex-col">
+        {/* Header */}
+        <header className="flex items-center justify-between whitespace-nowrap border-b-2 border-transparent border-gradient-brand px-6 py-4 md:px-20 lg:px-40">
+          <div className="flex items-center gap-4 text-white">
+            <div className="size-6 text-blue-400">
+              <Zap className="w-8 h-8 -ml-1" />
+            </div>
+            <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">GROWTH.AI</h2>
           </div>
-          <span className="text-xl font-black tracking-tighter uppercase italic">Growth.AI</span>
-        </div>
-        
-        <div className="hidden md:flex items-center gap-10">
-          {['Engine', 'Optimization', 'Security', 'Pricing'].map((item) => (
-            <a key={item} href="#" className="text-sm font-semibold text-slate-400 hover:text-white transition-colors">
-              {item}
-            </a>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-4">
-          <button className="hidden sm:block text-sm font-bold text-slate-300 hover:text-white">Login</button>
-          <button className="bg-white text-slate-950 px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-50 transition-all active:scale-95 shadow-xl shadow-white/5">
-            Get Started
-          </button>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <main className="relative z-10 w-full max-w-7xl mx-auto px-6 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col gap-8 text-center lg:text-left items-center lg:items-start"
-        >
-          <motion.div 
-            variants={itemVariants} 
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
-            V3.2 Model Live
-          </motion.div>
-
-          <motion.h1 
-            variants={itemVariants}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1]"
-          >
-            Predict. Scale. <br />
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
-              Automate.
-            </span>
-          </motion.h1>
-
-          <motion.p 
-            variants={itemVariants}
-            className="text-lg text-slate-400 max-w-xl leading-relaxed"
-          >
-            Harness the world's most advanced growth intelligence engine. Transition your data into actionable revenue pipelines with 99.8% precision.
-          </motion.p>
-
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-4 justify-center lg:justify-start w-full">
-            <button className="group flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 rounded-xl text-white font-bold text-lg shadow-2xl shadow-blue-500/20 hover:brightness-110 transition-all active:scale-95">
-              Launch Dashboard
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="px-8 py-4 rounded-xl bg-slate-800 border border-white/5 font-bold text-lg hover:bg-slate-700 transition-all active:scale-95">
-              View Roadmap
-            </button>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="flex items-center gap-6 pt-4 border-t border-white/5 w-full">
-            <div className="flex -space-x-3">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-slate-900 bg-slate-800 overflow-hidden">
-                  <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + 12}`} alt="User" />
-                </div>
-              ))}
+          <div className="hidden lg:flex flex-1 justify-end gap-8">
+            <div className="flex items-center gap-9">
+              <a className="text-white/80 hover:text-blue-400 text-sm font-medium transition-colors" href="#">Growth Engine</a>
+              <a className="text-white/80 hover:text-purple-400 text-sm font-medium transition-colors" href="#">Optimization</a>
+              <a className="text-white/80 hover:text-green-400 text-sm font-medium transition-colors" href="#">Pricing</a>
             </div>
-            <p className="text-sm text-slate-500 font-medium">
-              Trusted by <span className="text-white font-bold">12,000+</span> growth teams
-            </p>
-          </motion.div>
-        </motion.div>
-
-        {/* Animation Component */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="flex justify-center"
-        >
-          <AIGrowth />
-        </motion.div>
-      </main>
-
-      {/* KPI Dashboard Section */}
-      <section className="relative z-10 w-full px-6 py-20 lg:py-32 bg-slate-950/40 border-y border-white/5 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-16 text-center lg:text-left flex flex-col lg:flex-row lg:items-end justify-between gap-6"
-          >
-            <div className="max-w-2xl">
-              <h2 className="text-3xl md:text-5xl font-black mb-4 tracking-tighter uppercase italic">
-                Performance <span className="text-blue-500">KPI</span> Metrics
-              </h2>
-              <p className="text-slate-400 text-lg">
-                Monitoring the core throughput of your autonomous growth pipelines. Updated every 1.5s.
-              </p>
+            <div className="flex gap-4">
+              <button className="flex min-w-[120px] cursor-pointer items-center justify-center h-10 px-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-bold hover:opacity-90 transition-opacity">
+                Get Started
+              </button>
+              <button className="flex min-w-[100px] cursor-pointer items-center justify-center h-10 px-5 bg-slate-800 border-2 border-slate-700 text-white text-sm font-bold hover:border-blue-500 transition-colors">
+                Login
+              </button>
             </div>
-            <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full border border-white/10 w-fit self-center lg:self-auto">
-              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">System Status: Nominal</span>
-            </div>
-          </motion.div>
+          </div>
+        </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {kpiData.map((kpi, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={`relative group p-8 rounded-3xl bg-slate-900/50 border ${kpi.border} hover:bg-slate-800/80 transition-all duration-500 overflow-hidden shadow-2xl`}
-              >
-                {/* Decorative Background Icon */}
-                <kpi.icon className={`absolute -right-4 -bottom-4 w-32 h-32 opacity-[0.03] ${kpi.color} group-hover:scale-110 transition-transform duration-700`} />
-                
-                <div className="relative z-10">
-                  <div className={`size-12 rounded-2xl ${kpi.bg} flex items-center justify-center mb-6 border border-white/5`}>
-                    <kpi.icon className={`w-6 h-6 ${kpi.color}`} />
-                  </div>
-                  
-                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-2">{kpi.label}</p>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-4xl font-black tracking-tighter">{kpi.val}</h3>
-                  </div>
-                  <p className="mt-3 text-xs font-medium text-slate-400 opacity-60 group-hover:opacity-100 transition-opacity">
-                    {kpi.sub}
-                  </p>
-                </div>
+        {/* Main Content */}
+        <main className="flex-1 flex flex-col items-center justify-center px-4 py-12 lg:px-20">
+          <div className="max-w-[1200px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Left Column: Text & CTA */}
+            <motion.div 
+              className="flex flex-col gap-8 z-10"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 bg-slate-800 border-2 border-blue-500/50 text-blue-400 text-xs font-bold uppercase tracking-wider w-fit">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Market Growth Engine Active
               </motion.div>
-            ))}
+              <motion.h1 variants={itemVariants} className="text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em]">
+                Accelerate Revenue with <span className="bg-gradient-to-br from-purple-400 to-pink-500 bg-clip-text text-transparent">AI Precision.</span>
+              </motion.h1>
+              <motion.p variants={itemVariants} className="text-white/70 text-lg md:text-xl font-normal leading-relaxed max-w-[540px]">
+                The Growth Theme engine transitions data into gold. Transform market signals into high-converting messaging with our continuous learning nodes.
+              </motion.p>
+              <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
+                <button className="flex min-w-[180px] cursor-pointer items-center justify-center h-14 px-8 bg-gradient-to-r from-green-600 to-emerald-500 text-white text-base font-bold border-0 shadow-lg shadow-green-900/20 hover:scale-105 transition-transform">
+                  Boost Conversion
+                </button>
+                <button className="flex min-w-[180px] cursor-pointer items-center justify-center h-14 px-8 bg-gradient-to-r from-blue-700 to-indigo-600 text-white text-base font-bold border-0 shadow-lg shadow-blue-900/20 hover:scale-105 transition-transform">
+                  View Roadmap
+                </button>
+              </motion.div>
+              <motion.div variants={itemVariants} className="flex items-center gap-6 pt-4">
+                <div className="flex -space-x-3">
+                  <div className="w-10 h-10 border-2 border-[#0f172a] bg-blue-600 flex items-center justify-center text-[10px] font-bold rounded-full">GT</div>
+                  <div className="w-10 h-10 border-2 border-[#0f172a] bg-purple-600 flex items-center justify-center text-[10px] font-bold rounded-full">RA</div>
+                  <div className="w-10 h-10 border-2 border-[#0f172a] bg-green-600 flex items-center justify-center text-[10px] font-bold rounded-full">PM</div>
+                </div>
+                <p className="text-sm text-white/50">Powering high-growth marketing teams globally</p>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column: Animated Tile */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.0, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+            >
+              <AIGrowth />
+            </motion.div>
+            
+          </div>
+        </main>
+
+        {/* Stats Grid */}
+        <div className="bg-slate-900 border-y-2 border-transparent border-gradient-brand py-10 px-6 md:px-20 lg:px-40 mt-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="flex flex-col gap-1 border-l-2 border-blue-500 pl-4">
+              <p className="text-white/50 text-xs font-medium uppercase tracking-wider">Engine Latency</p>
+              <p className="text-white text-2xl font-bold">1.8ms</p>
+              <p className="text-blue-400 text-xs font-bold">Turbo Mode Active</p>
+            </div>
+            <div className="flex flex-col gap-1 border-l-2 border-red-500 pl-4">
+              <p className="text-white/50 text-xs font-medium uppercase tracking-wider">Growth Capital</p>
+              <p className="text-white text-2xl font-bold">$2.4M</p>
+              <p className="text-red-400 text-xs font-bold">Optimized Weekly</p>
+            </div>
+            <div className="flex flex-col gap-1 border-l-2 border-purple-500 pl-4">
+              <p className="text-white/50 text-xs font-medium uppercase tracking-wider">LTV Increase</p>
+              <p className="text-white text-2xl font-bold">84%</p>
+              <p className="text-purple-400 text-xs font-bold">Model Confidence</p>
+            </div>
+            <div className="flex flex-col gap-1 border-l-2 border-green-500 pl-4">
+              <p className="text-white/50 text-xs font-medium uppercase tracking-wider">Avg CAC Drop</p>
+              <p className="text-white text-2xl font-bold">-32%</p>
+              <p className="text-green-400 text-xs font-bold">Q4 Performance</p>
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* Feature Grid (Condensed) */}
-      <section className="relative z-10 w-full py-16 px-6 md:px-24">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            { icon: Layout, label: 'Low Latency', val: '1.2ms', color: 'text-blue-400' },
-            { icon: Shield, label: 'Capital Ops', val: '$4.2B', color: 'text-purple-400' },
-            { icon: Activity, label: 'LTV Uplift', val: '+124%', color: 'text-emerald-400' },
-            { icon: Zap, label: 'CAC Delta', val: '-42%', color: 'text-amber-400' }
-          ].map((stat, i) => (
-            <div key={i} className="flex flex-col items-center lg:items-start text-center lg:text-left">
-              <stat.icon className={`w-5 h-5 ${stat.color} mb-3`} />
-              <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">{stat.label}</p>
-              <p className="text-xl font-black tracking-tight">{stat.val}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-white/5 mt-auto">
-        <div className="flex items-center gap-2 opacity-40">
-          <LineChart className="w-4 h-4 text-blue-400" />
-          <span className="text-xs font-medium uppercase tracking-tighter">© 2024 GROWTH.AI INFRASTRUCTURE</span>
-        </div>
-        <div className="flex gap-8">
-          {['Docs', 'Privacy', 'Status', 'API'].map((link) => (
-            <a key={link} href="#" className="text-xs font-bold text-slate-600 hover:text-blue-400 transition-colors uppercase tracking-widest">
-              {link}
-            </a>
-          ))}
-        </div>
-      </footer>
+        {/* Footer */}
+        <footer className="px-6 py-12 md:px-20 lg:px-40 flex flex-col md:flex-row justify-between items-center gap-6 border-t-2 border-transparent border-gradient-brand">
+          <div className="flex items-center gap-4 text-white/40">
+            <LineChart className="text-blue-400" />
+            <span className="text-sm font-medium">© 2024 Product Marketing AI - Growth Theme. All rights reserved.</span>
+          </div>
+          <div className="flex gap-8">
+            <a className="text-white/40 hover:text-blue-400 text-sm transition-colors" href="#">Growth Docs</a>
+            <a className="text-white/40 hover:text-purple-400 text-sm transition-colors" href="#">Security</a>
+            <a className="text-white/40 hover:text-green-400 text-sm transition-colors" href="#">Status</a>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }

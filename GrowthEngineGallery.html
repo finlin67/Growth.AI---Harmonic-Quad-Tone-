@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowthEngineGallery - Standalone Animation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "lucide-react": "https://esm.sh/lucide-react?deps=react@18.2.0",
+            "framer-motion": "https://esm.sh/framer-motion?deps=react@18.2.0"
+        }
+    }
+    </script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="w-full h-screen flex justify-center items-center"></div>
+
+    <script type="text/babel" data-type="module">
+        /** @jsx React.createElement */
+        import React, { useState, useEffect, useCallback, useRef } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import { motion, AnimatePresence } from 'framer-motion';
+        import { TrendingUp, Brain, Sparkles, Zap, Activity, ShieldCheck } from 'lucide-react';
+
+        /**
+         * GrowthEngineGallery
+         * A high-performance, strictly typed animation component for a SaaS AI visualization.
+         * Optimized for Framer Motion v12 and Cursor Gallery constraints.
+         */
+        export default function GrowthEngineGallery() {
+            const [stats, setStats] = useState({
+                revenue: 42.4,
+                latency: 1.8,
+                confidence: 99.2,
+                nodes: 24
+            });
+
+            // Recursive timeout to simulate organic data jitter
+            const updateStats = useCallback(() => {
+                setStats(prev => ({
+                    revenue: parseFloat((prev.revenue + (Math.random() * 0.2 - 0.1)).toFixed(1)),
+                    latency: parseFloat((1.7 + Math.random() * 0.3).toFixed(1)),
+                    confidence: parseFloat((99.1 + Math.random() * 0.2).toFixed(1)),
+                    nodes: Math.floor(22 + Math.random() * 5)
+                }));
+            }, []);
+
+            useEffect(() => {
+                let timer;
+                const loop = () => {
+                    updateStats();
+                    timer = setTimeout(loop, 2000 + Math.random() * 1000);
+                };
+                loop();
+                return () => clearTimeout(timer);
+            }, [updateStats]);
+
+            return (
+                <div className="w-full aspect-square max-w-[600px] bg-[#0f172a] overflow-hidden relative flex items-center justify-center p-4 selection:bg-blue-500/30 border border-slate-800 shadow-2xl">
+                    {/* Background Grid & Ambient Glow */}
+                    <div className="absolute inset-0 z-0 pointer-events-none">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.12),transparent_75%)]" />
+                        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+                    </div>
+
+                    {/* Floating Ambient Particles */}
+                    {[0, 1, 2, 3].map((i) => (
+                        <motion.div
+                            key={i}
+                            className={`absolute w-1.5 h-1.5 rounded-full ${['bg-blue-400', 'bg-purple-500', 'bg-green-500', 'bg-red-500'][i]}`}
+                            animate={{
+                                x: [Math.random() * 400 - 200, Math.random() * 400 - 200],
+                                y: [Math.random() * 400 - 200, Math.random() * 400 - 200],
+                                opacity: [0.1, 0.4, 0.1],
+                            }}
+                            transition={{
+                                duration: 12 + i * 3,
+                                repeat: Infinity,
+                                repeatType: "mirror"
+                            }}
+                        />
+                    ))}
+
+                    {/* Main Content Area */}
+                    <div className="relative z-10 w-full h-full flex items-center justify-center">
+                        
+                        {/* Connection Lines */}
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 600 600">
+                            <motion.path
+                                d="M150 150 Q 200 200, 300 300"
+                                fill="none"
+                                stroke="url(#grad1)"
+                                strokeWidth="2"
+                                animate={{ strokeDashoffset: [100, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, repeatType: "loop" }}
+                                style={{ strokeDasharray: "50 50" }}
+                            />
+                            <motion.path
+                                d="M450 150 Q 400 200, 300 300"
+                                fill="none"
+                                stroke="url(#grad2)"
+                                strokeWidth="2"
+                                animate={{ strokeDashoffset: [-100, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, repeatType: "loop" }}
+                                style={{ strokeDasharray: "40 40" }}
+                            />
+                            <defs>
+                                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#3b82f6" />
+                                    <stop offset="100%" stopColor="#a855f7" />
+                                </linearGradient>
+                                <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#ef4444" />
+                                    <stop offset="100%" stopColor="#3b82f6" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+
+                        {/* Central Metric Tile */}
+                        <motion.div 
+                            initial={{ opacity: [0, 1], scale: [0.95, 1] }}
+                            animate={{ y: [0, -10, 0] }}
+                            transition={{ duration: 6, repeat: Infinity, repeatType: "mirror" }}
+                            className="relative z-20 bg-slate-900 border-4 border-slate-700 shadow-2xl p-6 flex flex-col items-center justify-center w-64 h-64 md:w-80 md:h-80"
+                        >
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500" />
+                            <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.25em] mb-4 text-center">
+                                Engine Consensus
+                            </p>
+                            <div className="flex flex-col items-center">
+                                <motion.h2 
+                                    key={stats.revenue}
+                                    initial={{ opacity: [0, 1], scale: [0.9, 1] }}
+                                    className="text-6xl md:text-7xl font-black tracking-tighter bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent"
+                                >
+                                    +{stats.revenue}%
+                                </motion.h2>
+                                <p className="text-white/80 font-bold text-xs mt-2 uppercase tracking-widest flex items-center gap-2">
+                                    <Activity className="w-3 h-3 text-blue-400" />
+                                    Growth Velocity
+                                </p>
+                            </div>
+                            <div className="mt-8 flex flex-col items-center w-full">
+                                <div className="flex justify-between w-full text-[9px] text-white/30 uppercase mb-1 px-4">
+                                    <span>Signal</span>
+                                    <span>LTV Peak</span>
+                                </div>
+                                <div className="h-1.5 w-3/4 bg-slate-800 rounded-full overflow-hidden">
+                                    <motion.div 
+                                        className="h-full bg-blue-500 shadow-[0_0_8px_#3b82f6]"
+                                        animate={{ width: ["30%", "88%", "55%"] }}
+                                        transition={{ duration: 7, repeat: Infinity, repeatType: "mirror" }}
+                                    />
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Floating Status Cards */}
+                        <motion.div
+                            animate={{ x: [-4, 4], y: [-4, 4] }}
+                            transition={{ duration: 5, repeat: Infinity, repeatType: "mirror" }}
+                            className="absolute top-[8%] left-[5%] z-30 bg-slate-800/95 backdrop-blur-md border-l-4 border-blue-500 p-3 w-44 shadow-2xl"
+                        >
+                            <div className="flex items-center gap-2 mb-2">
+                                <TrendingUp className="w-3 h-3 text-blue-400" />
+                                <span className="text-[10px] font-bold text-white uppercase tracking-tight">Market Intelligence</span>
+                            </div>
+                            <div className="space-y-1.5">
+                                <div className="h-1 w-full bg-slate-700">
+                                    <motion.div 
+                                        className="h-full bg-blue-500" 
+                                        animate={{ width: ["15%", "95%"] }} 
+                                        transition={{ duration: 2.5, repeat: Infinity, repeatType: "mirror" }}
+                                    />
+                                </div>
+                                <p className="text-[9px] text-white/50 leading-none">{stats.nodes} clusters active</p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            animate={{ x: [4, -4], y: [4, -4] }}
+                            transition={{ duration: 7, repeat: Infinity, repeatType: "mirror" }}
+                            className="absolute bottom-[8%] right-[5%] z-30 bg-slate-800/95 backdrop-blur-md border-l-4 border-purple-500 p-3 w-44 shadow-2xl"
+                        >
+                            <div className="flex items-center gap-2 mb-2">
+                                <Sparkles className="w-3 h-3 text-purple-400" />
+                                <span className="text-[10px] font-bold text-white uppercase tracking-tight">Creative Nodes</span>
+                            </div>
+                            <div className="flex flex-col gap-1.5">
+                                <div className="h-1 w-full bg-slate-700/50 rounded-full" />
+                                <motion.div 
+                                    className="h-1 bg-purple-500 rounded-full"
+                                    animate={{ width: ["20%", "75%", "40%"] }}
+                                    transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }}
+                                />
+                                <div className="h-1 w-2/3 bg-slate-700/50 rounded-full" />
+                            </div>
+                        </motion.div>
+
+                        {/* Small Tooltips / Badges */}
+                        <motion.div
+                            animate={{ opacity: [0.4, 1, 0.4] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="absolute top-[18%] right-[10%] z-30 bg-red-500/15 border border-red-500/30 px-2 py-1 flex items-center gap-2"
+                        >
+                            <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
+                            <span className="text-[8px] font-black text-red-400 uppercase tracking-widest">LIVE SYNC</span>
+                        </motion.div>
+
+                        <div className="absolute bottom-[18%] left-[10%] z-30 flex flex-col gap-2">
+                            <motion.div className="bg-slate-800/80 p-2 border border-slate-700 flex items-center gap-3 shadow-xl">
+                                <div className="bg-green-500/20 p-1 rounded">
+                                    <ShieldCheck className="w-3 h-3 text-green-400" />
+                                </div>
+                                <div>
+                                    <p className="text-[7px] text-white/40 uppercase font-bold tracking-wider leading-none">Confidence</p>
+                                    <p className="text-[10px] text-white font-mono font-bold">{stats.confidence}%</p>
+                                </div>
+                            </motion.div>
+                            <motion.div className="bg-slate-800/80 p-2 border border-slate-700 flex items-center gap-3 shadow-xl">
+                                <div className="bg-blue-500/20 p-1 rounded">
+                                    <Zap className="w-3 h-3 text-blue-400" />
+                                </div>
+                                <div>
+                                    <p className="text-[7px] text-white/40 uppercase font-bold tracking-wider leading-none">Latency</p>
+                                    <p className="text-[10px] text-white font-mono font-bold">{stats.latency}ms</p>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+
+                    {/* Decorative Geometric Borders */}
+                    <div className="absolute top-6 left-6 border-t-2 border-l-2 border-white/10 w-10 h-10" />
+                    <div className="absolute top-6 right-6 border-t-2 border-r-2 border-white/10 w-10 h-10" />
+                    <div className="absolute bottom-6 left-6 border-b-2 border-l-2 border-white/10 w-10 h-10" />
+                    <div className="absolute bottom-6 right-6 border-b-2 border-r-2 border-white/10 w-10 h-10" />
+                </div>
+            );
+        }
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<GrowthEngineGallery />);
+    </script>
+</body>
+</html>
